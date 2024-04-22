@@ -2,7 +2,7 @@ from flask import Flask
 
 app = Flask(__name__)
 
-store = [
+stores = [
     {
         "name": "My Store",
         "items": [
@@ -13,3 +13,7 @@ store = [
         ]
     }
 ]
+
+@app.get("/store")
+def get_stores():
+    return {"stores": stores}
