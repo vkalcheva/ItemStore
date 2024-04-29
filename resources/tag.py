@@ -15,3 +15,19 @@ class TagsStore(MethodView):
     def get(self, store_id):
         store = StoreModel.query.get_or_404(store_id)
         return store.tags.all()
+    
+    @blp.arguments(TagSchema)
+    @blp.response(201, TagSchema)
+    def post(self, tag_data, store_id):
+        tag = TagModel(**tag_data, store_id=store_id)
+
+        try:
+            db.session.add(tag)
+            db.session.commit()
+        except SQLAlchemyError as e:
+            abort(
+                500,
+                message=str(e)
+            )
+
+        return tag
