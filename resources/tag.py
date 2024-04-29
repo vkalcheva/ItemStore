@@ -31,3 +31,11 @@ class TagsStore(MethodView):
             )
 
         return tag
+    
+
+@blp.route("/tag/<string:tag_id>")
+class Tag(MethodView):
+    @blp.response(200, TagSchema)
+    def get(self, tag_id):
+        tag = TagModel.query.get_or_404(tag_id)
+        return tag
